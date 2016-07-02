@@ -1,21 +1,17 @@
-package com.nibado.example.spark;
+package submissions;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Locale;
 
-import static com.nibado.example.spark.Mappers.toDateString;
-
 /**
- * Comment POJO that represents the information read from the input.
+ * Created by shahbaz on 7/2/16.
  */
-public class Comment implements Serializable {
+public class Submission implements Serializable {
     public static final long serialVersionUID = 1L;
-  //  private String subReddit;
     private String author;
     private String timeStamp;
- //   private String[] body;
-    private String comment;
+    //   private String[] body;
+    private String submission;
     private String tldr;
     private boolean deleted;
     private static int validComments=0;
@@ -26,15 +22,15 @@ public class Comment implements Serializable {
 
     public static void setValidComments() {
 
-       ++Comment.validComments;
+       // ++Comment.validComments;
     }
 
-    public String getComment() {
-        return comment;
+    public String getSubmission() {
+        return submission;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setSubmission(String submission) {
+        this.submission = submission;
     }
 
     public String getTldr() {
@@ -45,10 +41,6 @@ public class Comment implements Serializable {
         this.tldr = tldr;
     }
 
-   /* public String getSubReddit() {
-        return subReddit;
-    }*/
-
     public String getAuthor() {
         return author;
     }
@@ -57,17 +49,9 @@ public class Comment implements Serializable {
         return timeStamp;
     }
 
-    /*public String[] getBody() {
-        return body;
-    }*/
-
     public boolean isDeleted() {
         return deleted;
     }
-
-    /*public void setSubReddit(String subReddit) {
-        this.subReddit = subReddit;
-    }*/
 
     public void setAuthor(String author) {
         this.author = author;
@@ -77,17 +61,13 @@ public class Comment implements Serializable {
         this.timeStamp = timeStamp;
     }
 
-   /* public void setBody(String[] body) {
-        this.body = body;
-    }*/
-
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
 
     @Override
     public String toString() {
-        return String.format(Locale.ROOT, "%s %s %s %s", timeStamp,comment,tldr,validComments);
+        return String.format(Locale.ROOT, "%s %s %s %s", timeStamp,submission,tldr,validComments);
     }
 
 
