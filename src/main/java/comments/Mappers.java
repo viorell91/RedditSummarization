@@ -31,20 +31,24 @@ public class Mappers {
         if((node.get("created_utc")!=null) && (node.get("author")!=null) && (node.get("body")!=null) ) {
 
 
-           // comment.setTimeStamp(toDateString(Long.parseLong(node.get("created_utc").asText())));
             comment.setAuthor(node.get("author").asText().toLowerCase());
             comment.setDeleted("[deleted]".equals(comment.getAuthor()));
+
             if (comment.isDeleted()) {
                 comment.setComment(null);
                 comment.setTldr(null);
-            } else {
-               // comment.setComment(node.get("body").asText());
+            }
+            else {
                 String currentLine = node.get("body").asText().toLowerCase();
+
                 if (currentLine.contains("tl;dr") || currentLine.contains("tldr")) {
                     String tldrStart = currentLine.substring(currentLine.indexOf("tl;dr") + 5, currentLine.length());
+
                     if (tldrStart.length() > 5) {
                         Matcher comment_match = c.matcher(currentLine);
+
                         if (comment_match.find() && comment_match.group(1).length() > 50) {
+
                             String commentExtract = comment_match.group(1);
                             comment.setComment(commentExtract);
                             comment.setTldr(tldrStart);
@@ -72,26 +76,31 @@ public class Mappers {
             throw new RuntimeException(e);
         }
         Submission submission = new Submission();
+
         if((node.get("created_utc")!=null) && (node.get("author")!=null) && (node.get("selftext")!=null) ){
 
-           // submission.setTimeStamp(toDateString(Long.parseLong(node.get("created_utc").asText())));
             submission.setAuthor(node.get("author").asText().toLowerCase());
             submission.setDeleted("[deleted]".equals(submission.getAuthor()));
+
             if(submission.isDeleted()) {
                 submission.setSubmission(null);
                 submission.setTldr(null);
             }
             else {
-                // submission.setComment(node.get("selftext").asText());
                 String currentLine = node.get("selftext").asText().toLowerCase();
+
                 if (currentLine.contains("tl;dr")|| currentLine.contains("tldr")) {
                     String tldrStart = currentLine.substring(currentLine.indexOf("tl;dr") + 5, currentLine.length());
+
                     if (tldrStart.length() > 5) {
                         Matcher submission_match = c.matcher(currentLine);
+
                         if (submission_match.find() && submission_match.group(1).length() > 50) {
+
                             String submissionExtract = submission_match.group(1);
                             submission.setSubmission(submissionExtract);
                             submission.setTldr(tldrStart);
+                            submission.setWordcount(toWords(currentLine).length);
                             //Submission.setValidComments();
 
                         }
