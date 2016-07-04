@@ -14,6 +14,7 @@ public class Submission implements Serializable {
     private String submission;
     private String tldr;
     private boolean deleted;
+    private int wordcount;
     private static int validComments=0;
 
     public static int getValidComments() {
@@ -65,10 +66,19 @@ public class Submission implements Serializable {
         this.deleted = deleted;
     }
 
+    public int getWordcount() {
+        return wordcount;
+    }
+
+    public void setWordcount(int wordcount) {
+        this.wordcount = wordcount;
+    }
+
     @Override
     public String toString() {
         return String.format(Locale.ROOT, "%s %s %s %s", timeStamp,submission,tldr,validComments);
     }
+
 
 
 }
