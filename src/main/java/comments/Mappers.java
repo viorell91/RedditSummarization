@@ -18,6 +18,12 @@ public class Mappers {
     private static final ObjectMapper TO_JSON = new ObjectMapper();
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+    private static int commentsRead=0;
+    private static int validComments=0;
+
+    private static int submissionsRead=0;
+    private static int validSubmissions=0;
+
     public static Comment toComment(String s) {
         final JsonNode node;
         Pattern c = Pattern.compile("(.+?)tl;dr", Pattern.DOTALL);
@@ -52,8 +58,7 @@ public class Mappers {
                             String commentExtract = comment_match.group(1);
                             comment.setComment(commentExtract);
                             comment.setTldr(tldrStart);
-                            Comment.setValidComments();
-
+                            comment.setWordcount(toWords(currentLine).length);
                         }
                     }
 
@@ -68,6 +73,7 @@ public class Mappers {
     public static Submission toSubmission(String s){
 
         final JsonNode node;
+
         Pattern c = Pattern.compile("(.+?)tl;dr", Pattern.DOTALL);
         try {
             node = TO_JSON.readValue(s,JsonNode.class);

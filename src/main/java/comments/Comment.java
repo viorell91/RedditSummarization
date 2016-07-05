@@ -14,6 +14,16 @@ public class Comment implements Serializable {
     private String comment;
     private String tldr;
     private boolean deleted;
+
+    public int getWordcount() {
+        return wordcount;
+    }
+
+    public void setWordcount(int wordcount) {
+        this.wordcount = wordcount;
+    }
+
+    private int wordcount;
     private static int validComments=0;
 
     public static int getValidComments() {

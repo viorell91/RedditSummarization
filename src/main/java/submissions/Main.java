@@ -1,6 +1,5 @@
 package submissions;
 
-import comments.Comment;
 import comments.SparkFacade;
 import org.apache.spark.api.java.JavaRDD;
 import org.slf4j.Logger;
@@ -14,6 +13,7 @@ public class Main {
     private static final Logger LOG = LoggerFactory.getLogger(Main.class);
     private SparkFacade facade;
     private String statisticsFilePath = "/user/bd-ss16-g2/statistics/comments.txt";
+    private double totalSubmissions;
 
     public void run(String inputFilePath, String outputFilePath) {
 
@@ -21,11 +21,9 @@ public class Main {
         facade.init();
 
         JavaRDD<Submission> submissions = facade.asSubmissionStream(inputFilePath,true);
-        // long validCommentsCount=comments.count();
-
         facade.writeSubmissions(submissions, outputFilePath);
-
-        //facade.writeStatistics(outputFilePath,validCommentsCount);
+       // totalSubmissions=facade.countColumns(inputFilePath);
+       // System.out.println("Total submissions read "+ totalSubmissions);
 
     }
 

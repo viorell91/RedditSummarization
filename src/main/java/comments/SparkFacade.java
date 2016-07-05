@@ -45,34 +45,17 @@ public class SparkFacade {
         //comments.saveAsTextFile(f.getAbsolutePath());
     }
 
-
-
-    public void writeStatistics(String path,long commentsCount){
-
-        try {
-
-            File file= new File(path,"/comments.txt");
-            if(file.getParentFile()!=null && !file.getParentFile().mkdirs()){
-                System.out.println(file.getParentFile());
-                System.out.println("Directory does not exist");
-                boolean directoryCreated = file.mkdirs();
-                System.out.println(directoryCreated);
-                System.out.println(file.getAbsoluteFile());
-                if(directoryCreated){
-                    BufferedWriter writer= new BufferedWriter(new FileWriter(file.getAbsolutePath()));
-                    writer.write(String.valueOf(commentsCount));
-                    writer.flush();
-                    writer.close();
-                }
-            }
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-        }
+    public double countColumns(String file){
+        return sc.textFile(file).count();
     }
+
+    public double countComments(String file){
+        return sc.textFile(file+"/2*").count();
+    }
+
+
     public JavaRDD<Comment> asCommentStream(String file, boolean filterDeleted) {
-        return sc.textFile(file+"/*")
+        return sc.textFile(file+"/2*")
                 .map(Mappers::toComment)
                 .filter(c -> (!filterDeleted || !c.isDeleted()) && c.getTldr()!=null);
 
