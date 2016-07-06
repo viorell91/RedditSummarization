@@ -134,10 +134,6 @@ public class Mappers {
     }
 
     public static String[] toWords(String s) {
-        s = s.substring(s.lastIndexOf("|") + 1);
-        s = s.toLowerCase();
-        s = s.replaceAll("[^a-z ]+", " ");
-
-        return s.split("\\s+");
+       return s.replaceAll("[\\W&&[^\\s]]", "").split("\\W+");
     }
 }
