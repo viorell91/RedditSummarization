@@ -8,6 +8,8 @@ public class Main {
     private static final Logger LOG = LoggerFactory.getLogger(Main.class);
     private SparkFacade facade;
     private double totalComments;
+
+    //Trying to push to git
     public void run(String inputFilePath, String outputFilePath) {
 
         facade = new SparkFacade("RedditAnalysis","yarn-client");
