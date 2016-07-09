@@ -2,6 +2,8 @@ package comments;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import datastructure.Comment;
 import submissions.Submission;
 
 import java.io.IOException;
@@ -23,6 +25,7 @@ public class Mappers {
 
     private static int submissionsRead=0;
     private static int validSubmissions=0;
+    
 
     public static Comment toComment(String s) {
         final JsonNode node;
@@ -46,27 +49,27 @@ public class Mappers {
             }
             else {
                 String currentLine = node.get("body").asText().toLowerCase();
-
+                
                 if (currentLine.contains("tl;dr") || currentLine.contains("tldr")) {
-                    String tldrStart = currentLine.substring(currentLine.indexOf("tl;dr") + 5, currentLine.length());
 
-                    if (tldrStart.length() > 5) {
-                        Matcher comment_match = c.matcher(currentLine);
+                	String tldr = currentLine.substring(currentLine.indexOf("tl;dr") + 5, currentLine.length()).replaceAll("[\\W&&[^\\s]]", "");
+                        if (tldr.length() > 5) {
+                            Matcher comment_match = c.matcher(currentLine);
 
-                        if (comment_match.find() && comment_match.group(1).length() > 50) {
-
-                            String commentExtract = comment_match.group(1);
-                            comment.setComment(commentExtract);
-                            comment.setTldr(tldrStart);
-                            comment.setWordcount(toWords(currentLine).length);
+                            if (comment_match.find() && comment_match.group(1).split("\\W+").length > 10) {
+                            	validComments++;
+                                String commentExtract = comment_match.group(1).replaceAll("[\\W&&[^\\s]]", "");
+	                            comment.setComment(commentExtract);
+	                            comment.setTldr(tldr);
+	                            comment.setWordcount(toWords(currentLine).length);
+                            }
                         }
-                    }
 
+                	}
                 }
 
-
             }
-        }
+        
         return comment;
     }
 
@@ -96,19 +99,17 @@ public class Mappers {
                 String currentLine = node.get("selftext").asText().toLowerCase();
 
                 if (currentLine.contains("tl;dr")|| currentLine.contains("tldr")) {
-                    String tldrStart = currentLine.substring(currentLine.indexOf("tl;dr") + 5, currentLine.length());
+                    String tldr = currentLine.substring(currentLine.indexOf("tl;dr") + 5, currentLine.length());
 
-                    if (tldrStart.length() > 5) {
+                    if (tldr.length() > 5) {
                         Matcher submission_match = c.matcher(currentLine);
 
-                        if (submission_match.find() && submission_match.group(1).length() > 50) {
-
-                            String submissionExtract = submission_match.group(1);
+                        if (submission_match.find() && submission_match.group(1).split("\\W+").length > 10) {
+                        	validComments++;
+                            String submissionExtract = submission_match.group(1).replaceAll("[\\W&&[^\\s]]", "");
                             submission.setSubmission(submissionExtract);
-                            submission.setTldr(tldrStart);
+                            submission.setTldr(tldr);
                             submission.setWordcount(toWords(currentLine).length);
-                            //Submission.setValidComments();
-
                         }
                     }
 
