@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Main {
+	//comment
     private static final Logger LOG = LoggerFactory.getLogger(Main.class);
     private SparkFacade facade;
     private double totalComments;
