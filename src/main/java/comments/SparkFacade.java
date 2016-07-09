@@ -54,6 +54,7 @@ public class SparkFacade {
     }
 
 
+
     public JavaRDD<Comment> asCommentStream(String file, boolean filterDeleted) {
         return sc.textFile(file+"/2*")
                 .map(Mappers::toComment)

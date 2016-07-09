@@ -3,13 +3,14 @@ package comments;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import datastructure.Comment;
 import submissions.Submission;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -54,14 +55,27 @@ public class Mappers {
 
                 	String tldr = currentLine.substring(currentLine.indexOf("tl;dr") + 5, currentLine.length()).replaceAll("[\\W&&[^\\s]]", "");
                         if (tldr.length() > 5) {
+                            Map<String,Integer> termfrequencies= new HashMap<>();
                             Matcher comment_match = c.matcher(currentLine);
+                            if (comment_match.find() && comment_match.group(1).replaceAll("[\\W&&[^\\s]]", "").split("\\W+").length >= 10) {
 
-                            if (comment_match.find() && comment_match.group(1).split("\\W+").length > 10) {
-                            	validComments++;
-                                String commentExtract = comment_match.group(1).replaceAll("[\\W&&[^\\s]]", "");
-	                            comment.setComment(commentExtract);
-	                            comment.setTldr(tldr);
+                                String commentExtract = comment_match.group(1);
+                                String words[]= commentExtract.split("\\W+");
+
+                                for (String word : words) {
+
+                                    if(!termfrequencies.containsKey(word)){
+                                        termfrequencies.put(word,1);
+                                    }
+                                    else {
+                                        termfrequencies.put(word,termfrequencies.get(word)+1);
+                                    }
+
+                                }
+                                comment.setComment(commentExtract);
+                                comment.setTldr(tldr);
 	                            comment.setWordcount(toWords(currentLine).length);
+                                comment.setTermfrequencies(termfrequencies);
                             }
                         }
 
@@ -102,14 +116,30 @@ public class Mappers {
                     String tldr = currentLine.substring(currentLine.indexOf("tl;dr") + 5, currentLine.length());
 
                     if (tldr.length() > 5) {
+                        Map<String,Integer> termfrequencies = new HashMap<>();
                         Matcher submission_match = c.matcher(currentLine);
 
-                        if (submission_match.find() && submission_match.group(1).split("\\W+").length > 10) {
-                        	validComments++;
-                            String submissionExtract = submission_match.group(1).replaceAll("[\\W&&[^\\s]]", "");
+                        if (submission_match.find() && submission_match.group(1).replaceAll("[\\W&&[^\\s]]", "").split("\\W+").length >= 10) {
+
+                            String submissionExtract = submission_match.group(1);
+                            String words[]= submissionExtract.split("\\W+");
+                            for (String word : words) {
+
+                                if(!termfrequencies.containsKey(word)){
+                                    termfrequencies.put(word,1);
+                                }
+                                else {
+                                    termfrequencies.put(word,termfrequencies.get(word)+1);
+                                }
+
+                            }
+
+
+
                             submission.setSubmission(submissionExtract);
                             submission.setTldr(tldr);
                             submission.setWordcount(toWords(currentLine).length);
+                            submission.setTermfrequencies(termfrequencies);
                         }
                     }
 

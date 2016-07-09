@@ -2,6 +2,7 @@ package submissions;
 
 import java.io.Serializable;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by shahbaz on 7/2/16.
@@ -10,7 +11,12 @@ public class Submission implements Serializable {
     public static final long serialVersionUID = 1L;
     private String author;
     private String timeStamp;
+
+
+
     //   private String[] body;
+    private Map<String,Integer> termfrequencies;
+    private Map<String,Double> tfIdfScores;
     private String submission;
     private String tldr;
     private boolean deleted;
@@ -72,6 +78,13 @@ public class Submission implements Serializable {
 
     public void setWordcount(int wordcount) {
         this.wordcount = wordcount;
+    }
+    public Map<String, Integer> getTermfrequencies() {
+        return termfrequencies;
+    }
+
+    public void setTermfrequencies(Map<String, Integer> termfrequencies) {
+        this.termfrequencies = termfrequencies;
     }
 
     @Override

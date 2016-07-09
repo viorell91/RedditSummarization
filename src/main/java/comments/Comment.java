@@ -2,6 +2,7 @@ package comments;
 
 import java.io.Serializable;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Comment POJO
@@ -10,7 +11,11 @@ public class Comment implements Serializable {
     public static final long serialVersionUID = 1L;
     private String author;
     private String timeStamp;
- //   private String[] body;
+
+
+
+    //   private String[] body;
+    private Map<String,Integer> termfrequencies;
     private String comment;
     private String tldr;
     private boolean deleted;
@@ -73,6 +78,13 @@ public class Comment implements Serializable {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+    public Map<String, Integer> getTermfrequencies() {
+        return termfrequencies;
+    }
+
+    public void setTermfrequencies(Map<String, Integer> termfrequencies) {
+        this.termfrequencies = termfrequencies;
     }
 
     @Override
