@@ -90,6 +90,8 @@ public class Summarizer {
                 String author= node.get("author").asText();
                 String tldr = node.get("tldr").asText();
                 String submission = node.get("submission").asText();
+                // [^a-zA-Z'-]|-.*-|^-|-$
+                //[\W&&[^\s]]
                 String[] words = submission.replaceAll("[\\W&&[^\\s]]", "").split("\\W+");
 
                // Calculate TF
@@ -120,14 +122,22 @@ public class Summarizer {
                 if (++i % 10000 == 0) {
                     System.out.println("Finished indexing " + i + " documents");
                 }
-                // Write the Summary object for each submission
-                submissionSummary.setAuthor(author);
-                submissionSummary.setSubmission(submission);
-                submissionSummary.setSummary(summary);
-                submissionSummary.setTldr(tldr);
-                submissionSummary.setMAX_TFIDF_TERM(MAX_TFIDF_TERM);
-                writer.write(writeMapper.writeValueAsString(submissionSummary));
-                writer.newLine();
+
+                if(summary.size()>0){
+                    // Write the Summary object for each submission
+                    int lengthofsummary = summary.stream().collect(Collectors.joining()).replaceAll("[\\W&&[^\\s]]", "").split("\\W+").length;
+
+                    submissionSummary.setAuthor(author);
+                    submissionSummary.setSubmission(submission);
+                    submissionSummary.setSummary(summary);
+                    submissionSummary.setTldr(tldr);
+                    submissionSummary.setMAX_TFIDF_TERM(MAX_TFIDF_TERM);
+                    submissionSummary.setSummaryLength(lengthofsummary);
+                    writer.write(writeMapper.writeValueAsString(submissionSummary));
+                    writer.newLine();
+                }
+
+
             }
             bufferedReader.close();
         }

@@ -13,6 +13,16 @@ public class SubmissionSummary {
     private String tldr;
     private String MAX_TFIDF_TERM;
 
+    public int getSummaryLength() {
+        return summaryLength;
+    }
+
+    public void setSummaryLength(int summaryLength) {
+        this.summaryLength = summaryLength;
+    }
+
+    private int summaryLength;
+
     public String getAuthor() {
         return author;
     }
@@ -54,7 +64,7 @@ public class SubmissionSummary {
 
     @Override
     public String toString() {
-        return String.format( "%s %s %s %s %s %d %d",author,submission,summary,tldr, MAX_TFIDF_TERM);
+        return String.format( "%s %s %s %s %s %d",author,submission,summary,tldr, MAX_TFIDF_TERM, summaryLength);
     }
 
 }
